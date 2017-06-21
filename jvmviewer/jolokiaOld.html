@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta charset="utf-8"/>
+    <title>JVM监控</title>
+    <meta name="description" content="User login page"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <link rel="stylesheet" href="./assets/css/layout.css"/>
+    <link rel="stylesheet" href="./assets/css/welcom.css"/>
+    <link rel="stylesheet" href="./assets/css/style_passos.css"/>
+    <link rel="stylesheet" href="./assets/css/onepage-scroll.css">
+    <link rel="stylesheet" href="./assets/css/font-awesome.min.css"/>
+    <style>  
+        #InputArgumentsContainer ul li,#SystemPropertiesContainer ul li{
+        	padding:2px 5px;
+        }
+        #InputArgumentsContainer ul li:nth-child(odd),#SystemPropertiesContainer ul li:nth-child(odd)
+		{
+			background:#f8f8f8;
+		}
+		.table_story tr td {
+		    padding: 2px;
+         }
+		.chart_info ul{
+		    padding-bottom:3px;
+		    height:auto;
+		    overflow:hidden;
+		}
+		.chart_info ul li{
+			width:33.33%;
+			float:left;
+			line-height:21px;
+			text-align:center;
+		}
+		.thread_info ul li{
+			width:14%;
+			float:left;
+			line-height:21px;
+			text-align:center;
+		}
+	   .table_td_div1 {
+	        width:600px;
+	        overflow-x:auto;
+	   }
+	   .table_td_div2 {    
+	        height: 15px;
+	        overflow-y: hidden;
+	        overflow-x: auto;
+	        width:600px;
+	   }
+	   .thread_td_span{
+           width: 342px;
+		    word-wrap: break-word;
+		    display: inline-block;
+		    color: blue;
+	   }
+	   .thread_background{
+	    width:600px;
+	    background:#eee;
+	    overflow:hidden;
+	   }
+	    td div p{
+	     color:red;
+		 font-size:12px;
+		 padding-left:60px;
+	   }
+	   .p_title{
+	     color:blue;
+		 font-size:12px;
+		 padding-left:20px;
+	   }
+    </style>
+</head>
+
+<body>
+<div class="">
+    <div class="content_frame">
+        <div class="plate">
+            <div class="project_r">
+                <div class="r_block p20" style="padding:10px 20px;">
+                    <!--参数类监控数据开始-->
+                    <div class="g-row">
+                        <div class="g-col g-col-4" style="width: 40%;">
+                            <h2 class="u-cardtitle">JVM参数</h2>
+                            <div class="m-card m-card-smh" style="height: 185px; margin-bottom: 10px;overflow:auto;line-height:19px; padding:10px;overflow-x: hidden;" id="InputArgumentsContainer">
+                            </div>
+                        </div>
+                        <div class="g-col g-col-6" style="width: 60%;">
+                             <h2 class="u-cardtitle">系统属性</h2>
+                             <div class="m-card m-card-smh"  style="height: 185px; margin-bottom: 10px;overflow:auto;line-height:19px; padding:10px;overflow-x: hidden;" id="SystemPropertiesContainer">           
+                            </div>
+                       </div>
+                    </div>
+                <!--参数类监控数据结束-->
+                <!--使用类型图表展示数据开始-->
+                <div class="g-row">
+                    <div class="g-col g-col-4">
+                        <h2 class="u-cardtitle">堆</h2>
+	                    <div class="m-card m-card-smh" style="height: 320px; padding:10px 20px; margin-bottom: 10px;">
+	                            <div class="r_block per_cent_con" style="width: 100%;margin: 0;">
+		                            <div class="chart_info">
+			                            <ul>
+				                            <li >最大：     <span id='HeapMemoryUsageMax'>00000</span></li>
+				                            <li >最小：     <span id='HeapMemoryUsageInit'>00000</span></li>
+				                            <li >已使用：<span id='HeapMemoryUsageCommitted'>00000</span></li>
+			                            
+			                            </ul>
+		                            </div>	                    
+	                                <div class="r_con p10_0">
+	                                    <div style="position: relative; padding: 0;">
+	                                        <div id="memoryUsedContainer" class="text-center" style="height:270px;">
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                     </div>
+                    </div>
+                    <div class="g-col g-col-4">
+                        <h2 class="u-cardtitle">Metaspace</h2>
+	                    <div class="m-card m-card-smh" style="height: 320px; padding:10px 20px; margin-bottom: 10px;">
+                               <div class="chart_info">
+		                            <ul>
+			                            <li >最大：    <span id='UsageMax'>00000</span></li>
+			                            <li >最小：    <span id='UsageInit'>00000</span></li>
+			                            <li >已使用     <span id='UsageCommitted'>00000</span></li>
+		                            
+		                            </ul>
+	                            </div>	    
+	                            <div class="r_block per_cent_con" style="width: 100%;margin: 0;">
+	                                <div class="r_con p10_0">
+	                                    <div style=" position: relative; padding: 0;">
+	                                        <div id="metaspaceContainer" class="text-center" style="height:270px;">	                                        
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                     </div>
+                    </div>
+                     <div class="g-col g-col-4">
+                        <h2 class="u-cardtitle">类加载</h2>
+	                    <div class="m-card m-card-smh" style="height: 320px; padding:10px 20px; margin-bottom: 10px;">
+	                            <div class="r_block per_cent_con" style="width: 100%;margin: 0;">
+	                                <div class="chart_info">
+			                            <ul>
+				                            <li >已载入：<span id='LoadedClassCount'>00000</span></li>
+				                            <li >未载入：<span id='UnloadedClassCount'>00000</span></li>
+				                            <li >总量：     <span id='TotalLoadedClassCount'>00000</span></li>		                        
+			                            </ul>
+		                            </div>	    
+	                                <div class="r_con p10_0">
+	                                    <div style=" position: relative; padding: 0;">
+	                                        <div id="classLoadedContainer" class="text-center" style="height:270px;">
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                     </div>
+                    </div>
+                </div>
+                <!--使用类型图表展示数据开始-->
+                <!--线程展示数据开始-->
+                <h2 class="u-cardtitle">线程</h2>
+                <div class="g-row" style="height: 350px; overflow: auto;">
+                    <div class="g-col g-col-10" style="width: 100%;">
+                        <div class="m-card m-card-smh" style="height: 100%; padding:10px 20px; margin-bottom: 10px;">
+                          <div class="thread_info">
+	                            <ul>
+		                            <li>线程数：<span id='threadCount'>00000</span></li>
+		                            <li>守护线程数：<span id='daemonThreadCount'>00000</span></li>
+		                            <li>运行：<div style="width: 24px; height: 11px; background-color: #4DD52B;display: inline-block;"></div></li>
+		                            <li>休眠：<div style="width: 24px; height: 11px; background-color: #1A1AE6;display: inline-block;"></div></li>
+		                            <li>等待：<div style="width: 24px; height: 11px; background-color: #EEC211;display: inline-block;"></div></li>
+		                            <li>驻留：<div style="width: 24px; height: 11px; background-color: #D56F2B;display: inline-block;"></div></li>
+		                            <li>监视：<div style="width: 24px; height: 11px; background-color: #FF0033;display: inline-block;"></div></li>
+	                            </ul>
+	                        </div>	                        
+                            <div class="r_block per_cent_con" style="width: 100%;margin: 0;">
+                                <table class="table_ob table_story scrollable">
+								<thead>
+									<tr>
+										<th>名称</th>
+										<th>状态</th>
+										<th>运行(s)</th>
+										<th>总计(s)</th>
+									</tr>
+								</thead>
+								<tbody id="threadTableBody">
+						            <tr>
+										<td>
+										   <div></div>												
+										</td>
+										<td class="table_td_div1">
+											<div class="table_td_div2" style="width:400px;">
+												<div id="threadState" class="thread_background">				
+											    </div>	   
+											</div>
+										</td>
+										<td>
+											 256ms
+										</td>
+										<td>
+										 　　 cc
+										</td>
+								   </tr>
+								</tbody>
+							</table>	
+                            </div>
+                        </div>
+            		        </div>
+                </div>
+                <!--线程展示数据结束-->
+                <!--统计分析结束-->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript" src="./assets/js/jquery-1.7.1.min.js"></script>
+<script src="./assets/js/highcharts.js"></script>s
+<script src="./jolokia/jolokia.js"></script>
+<script src="./jolokia/jolokia-simple.js"></script>
+<script type="text/javascript">
+　　//#4DD52B  绿色  运行　　RUNNABLE
+    //#1A1AE6  蓝色  休眠          TIMED_WAITING
+    //#EEC211  黄色   等待         WAITING
+    //#D56F2B  橙色   驻留        
+    //#FF0033  红色   监视
+	function getQueryString(name) {
+				var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null) {
+					return unescape(r[2]);
+				}
+				return null;
+	}
+
+ 	 var OSVHost="http://"+window.location.host;
+	 //var OSVHost ="http://192.168.0.180:7777";
+	 var OSVHost ="http://192.168.31.126:7777";
+	 //目标主机ip端口
+	 var targetIp=getQueryString('ip');
+	 var targetPort=getQueryString('port');
+    function adjustHeight() {
+        var h = $(window).height();
+        var h2 = $(".head").height();
+        $(".plate").css("height", h - h2);
+        $(".left_sub_menu").css("height", h - h2);
+    }
+    $(document).ready(function () {
+                adjustHeight();
+            }
+    )
+    $(window).resize(function () {
+        adjustHeight();
+    });
+</script>
+<script src="./jolokia/index.js"></script>
+</body>
+</html>
